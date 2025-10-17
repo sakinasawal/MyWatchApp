@@ -14,6 +14,7 @@ navigationCompose = "2.9.5"
 composeNavigation = "1.5.3"
 ksp = "1.9.0-1.0.13"
 material3 = "1.4.0"
+foundationLayout = "1.9.3"
 
 [libraries]
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
@@ -35,6 +36,7 @@ core-splashscreen = { group = "androidx.core", name = "core-splashscreen", versi
 navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 compose-navigation = { group = "androidx.wear.compose", name = "compose-navigation", version.ref = "composeNavigation" }
 material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
+androidx-foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout", version.ref = "foundationLayout" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

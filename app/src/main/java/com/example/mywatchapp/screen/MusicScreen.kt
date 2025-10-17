@@ -40,7 +40,7 @@ import com.example.mywatchapp.R
 import com.example.mywatchapp.viewmodel.ListSongViewModel
 
 @Composable
-fun PlaySong(){
+fun WearMusicScreen(){
     val viewModel : ListSongViewModel = hiltViewModel()
     val isPlaying by viewModel.isPlaying.collectAsState()
     val progress by viewModel.progress.collectAsState()
@@ -169,5 +169,5 @@ fun CircularProgress(progress: Float?){
 @Preview(device = WearDevices.SMALL_ROUND, showSystemUi = true)
 @Composable
 fun ListSongAppPreview() {
-    PlaySong()
+    WearMusicScreen()
 }
