@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-//    alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.compose)
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
 }
@@ -60,6 +60,7 @@ dependencies {
     implementation(libs.compose.navigation)
     implementation(libs.material3)
     implementation(libs.androidx.foundation.layout)
+    implementation(libs.androidx.compose.material3)
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.ui.test.junit4)
     debugImplementation(libs.ui.tooling)
@@ -69,4 +70,15 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
+
+    // Google’s Horologist library for Wear OS
+    implementation(libs.horologist.compose.layout)
+    implementation(libs.horologist.compose.material)
+    implementation(libs.horologist.composables)
+
+    implementation(libs.lottie.compose)
+
+    // Generate QR
+    implementation(libs.core)
+    implementation(libs.zxing.android.embedded)
 }

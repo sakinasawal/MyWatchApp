@@ -1,8 +1,10 @@
 [versions]
-agp = "8.12.3"
-hiltAndroid = "2.50"
+agp = "8.10.0"
+core = "3.5.3"
+hiltAndroid = "2.57.2"
 hiltNavigationCompose = "1.2.0"
-kotlin = "1.9.0"
+horologistComposeLayout = "0.8.2-alpha"
+kotlin = "2.2.20"
 playServicesWearable = "19.0.0"
 composeBom = "2024.09.00"
 composeMaterial = "1.2.1"
@@ -12,14 +14,23 @@ activityCompose = "1.11.0"
 coreSplashscreen = "1.0.1"
 navigationCompose = "2.9.5"
 composeNavigation = "1.5.3"
-ksp = "1.9.0-1.0.13"
+ksp = "2.2.20-2.0.4"
 material3 = "1.4.0"
 foundationLayout = "1.9.3"
+composeMaterial3 = "1.5.4"
+lottieCompose = "6.5.2"
+zxingAndroidEmbedded = "4.3.0"
 
 [libraries]
+core = { module = "com.google.zxing:core", version.ref = "core" }
+zxing-android-embedded = { module = "com.journeyapps:zxing-android-embedded", version.ref = "zxingAndroidEmbedded" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
+lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieCompose" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroid" }
+horologist-composables = { module = "com.google.android.horologist:horologist-composables", version.ref = "horologistComposeLayout" }
+horologist-compose-layout = { module = "com.google.android.horologist:horologist-compose-layout", version.ref = "horologistComposeLayout" }
+horologist-compose-material = { module = "com.google.android.horologist:horologist-compose-material", version.ref = "horologistComposeLayout" }
 play-services-wearable = { group = "com.google.android.gms", name = "play-services-wearable", version.ref = "playServicesWearable" }
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 ui = { group = "androidx.compose.ui", name = "ui" }
@@ -37,11 +48,12 @@ navigation-compose = { group = "androidx.navigation", name = "navigation-compose
 compose-navigation = { group = "androidx.wear.compose", name = "compose-navigation", version.ref = "composeNavigation" }
 material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
 androidx-foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout", version.ref = "foundationLayout" }
+androidx-compose-material3 = { group = "androidx.wear.compose", name = "compose-material3", version.ref = "composeMaterial3" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-#kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 
 

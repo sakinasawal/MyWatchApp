@@ -35,6 +35,7 @@ import androidx.wear.compose.material.MaterialTheme
 import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.TimeText
+import androidx.wear.compose.material3.ScreenScaffold
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.example.mywatchapp.R
 import com.example.mywatchapp.viewmodel.ListSongViewModel
@@ -64,9 +65,7 @@ fun ListSongApp(
     onLike : (()-> Unit)? = null,
     onVolume : (()-> Unit)? = null,
 ){
-    Scaffold(
-        timeText = { TimeText() }
-    ) {
+    ScreenScaffold{
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -157,7 +156,7 @@ fun CircularProgress(progress: Float?){
         drawArc(
             color = Color(0xFFB8FF00),
             startAngle = -90f,
-            sweepAngle = 360f * progress!!,
+            sweepAngle = 360f * (progress?: 0f),
             useCenter = false,
             topLeft = Offset(0f, 0f),
             size = Size(size.width, size.height),
@@ -169,5 +168,5 @@ fun CircularProgress(progress: Float?){
 @Preview(device = WearDevices.SMALL_ROUND, showSystemUi = true)
 @Composable
 fun ListSongAppPreview() {
-    WearMusicScreen()
+    ListSongApp()
 }

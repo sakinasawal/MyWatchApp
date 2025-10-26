@@ -2,6 +2,7 @@ package com.example.mywatchapp.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,6 +13,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,6 +29,10 @@ import androidx.wear.compose.foundation.pager.rememberPagerState
 import androidx.wear.compose.material.Scaffold
 import androidx.wear.compose.material.Vignette
 import androidx.wear.compose.material.VignettePosition
+import androidx.wear.compose.material3.ScreenScaffold
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
+import com.google.android.horologist.compose.layout.ScreenScaffold
+import com.google.android.horologist.compose.layout.rememberResponsiveColumnState
 
 @Composable
 fun WearHomeScreen(startPage: Int = 0){
@@ -54,8 +60,10 @@ fun WearHomeScreen(startPage: Int = 0){
     }
 }
 
+@OptIn(ExperimentalHorologistApi::class)
 @Composable
 fun WearGridScreen() {
+    val columnState = rememberResponsiveColumnState()
     var selected by remember { mutableStateOf(setOf<String>()) }
 
     val buttons = listOf(
@@ -67,38 +75,38 @@ fun WearGridScreen() {
         "Clock" to R.drawable.ic_clock,
         "App" to R.drawable.ic_app
     )
-    Scaffold(
-        vignette = { Vignette(vignettePosition = VignettePosition.TopAndBottom) },
-        positionIndicator = {}
-    ){
-        ScalingLazyColumn{
-            item {
-                Text(
-                    text = "Home",
-                    style = MaterialTheme.typography.title3,
-                    modifier = Modifier.padding(vertical = 4.dp)
-                )
-            }
 
-            item {
-                val configuration = LocalConfiguration.current
-                val screenWidthDp = configuration.screenWidthDp
-                val buttonSize = (screenWidthDp / 3.5).dp
+    ScreenScaffold(scrollState = columnState){
+        Column{
+            Text(
+                text = "Home",
+                style = MaterialTheme.typography.title3,
+                modifier = Modifier
+                    .padding(vertical = 10.dp)
+                    .align(Alignment.CenterHorizontally)
+            )
 
-                FlowRow(
-                    horizontalArrangement = Arrangement.spacedBy(2.dp),
-                    verticalArrangement = Arrangement.spacedBy(2.dp),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    buttons.forEach { (label, icon) ->
-                        ToggleIconBtn(
-                            iconRes = icon,
-                            isSelected = selected.contains(label),
-                            onToggle = { isOn ->
-                                selected = if (isOn) selected + label else selected - label
-                            },
-                            modifier = Modifier.size(buttonSize)
-                        )
+            ScalingLazyColumn{
+                item {
+                    val configuration = LocalConfiguration.current
+                    val screenWidthDp = configuration.screenWidthDp
+                    val buttonSize = (screenWidthDp / 3.5).dp
+
+                    FlowRow(
+                        horizontalArrangement = Arrangement.spacedBy(2.dp),
+                        verticalArrangement = Arrangement.spacedBy(2.dp),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        buttons.forEach { (label, icon) ->
+                            ToggleIconBtn(
+                                iconRes = icon,
+                                isSelected = selected.contains(label),
+                                onToggle = { isOn ->
+                                    selected = if (isOn) selected + label else selected - label
+                                },
+                                modifier = Modifier.size(buttonSize)
+                            )
+                        }
                     }
                 }
             }

@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
         setTheme(android.R.style.Theme_DeviceDefault)
 
         setContent {
-            NavWearScreen()
+            ScreenController()
         }
     }
 }
@@ -31,5 +31,5 @@ class MainActivity : ComponentActivity() {
 @Preview(device = WearDevices.SMALL_ROUND, showSystemUi = true)
 @Composable
 fun DefaultPreview() {
-    NavWearScreen()
+    ScreenController()
 }
