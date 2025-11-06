@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,6 +31,8 @@ import androidx.wear.compose.material.Text
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.example.mywatchapp.R
 import androidx.wear.compose.material.*
+import com.google.android.horologist.annotations.ExperimentalHorologistApi
+import com.google.android.horologist.compose.material.Confirmation
 
 @Composable
 fun ButtonText(
@@ -134,5 +137,27 @@ fun PreviewWearTextButton() {
             ToggleIconBtn(modifier = Modifier, iconRes = R.drawable.ic_fav, label = "Heart")
         }
     }
+}
+
+@OptIn(ExperimentalHorologistApi::class)
+@Composable
+fun CardConfirmDialog(
+    isShowDialog : Boolean = false,
+    onDismiss: ()-> Unit = {}
+){
+    Confirmation(
+        showDialog = isShowDialog,
+        onTimeout = { onDismiss() },
+        icon = {
+            Icon(
+                painter = painterResource(R.drawable.ic_done),
+                contentDescription = "Success Icon",
+                modifier = Modifier.size(40.dp),
+                tint = Color.Unspecified
+            )
+        },
+        title = "Card added successfully"
+    )
+
 }
 

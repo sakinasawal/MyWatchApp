@@ -2,19 +2,23 @@ package com.example.mywatchapp.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,20 +27,20 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import androidx.wear.compose.material3.Text
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.example.mywatchapp.R
+import com.example.mywatchapp.component.GenerateQrCodeDialog
 import com.example.mywatchapp.model.Voucher
 import com.example.mywatchapp.theme.Typography
 import com.google.android.horologist.compose.layout.ScreenScaffold
-import kotlin.collections.forEach
 
 @Composable
-fun VoucherListScreen(navController: NavController? = null){
-    val scrollState = rememberScrollState()
+fun VoucherListScreen() {
+    var isShowQrCodeDialog by remember { mutableStateOf(false) }
+    var selectedVoucher by remember { mutableStateOf<Voucher?>(null) }
 
+    // TODO : dummy data
     val vouchers = listOf(
         Voucher(id = "1", text = "Auntie Anne's \nBuy 1 Get 1 Free", image = R.drawable.voucher),
         Voucher(id = "2", text = "Krispy Kreme \nBuy 1 Get 1 Free", image = R.drawable.krispy_kreme),
@@ -47,64 +51,79 @@ fun VoucherListScreen(navController: NavController? = null){
     )
 
     ScreenScaffold {
-        Box(modifier = Modifier
-            .fillMaxSize()
-            .padding(vertical = 10.dp, horizontal = 10.dp)
-        ){
-           Text(text = "Voucher",
-               style = Typography.h4,
-               modifier = Modifier
-                   .align(Alignment.TopCenter)
-                   .padding(top = 15.dp)
-           )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp)
+        ) {
+            Text(
+                text = "Voucher",
+                style = Typography.h4,
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .padding(top = 28.dp)
+            )
 
-            Row(
-                modifier = Modifier.horizontalScroll(scrollState),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ){
-                // TODO : update
-                vouchers.forEach {
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                items(vouchers) { voucher ->
                     VoucherComponent(
-                        label = it.text,
-                        image = it.image,
-                        onClick = { navController?.navigate("qr/${it.id}") }
+                        label = voucher.text,
+                        image = voucher.image,
+                        onClick = {
+                            selectedVoucher = voucher
+                            isShowQrCodeDialog = true
+                        }
                     )
                 }
             }
         }
     }
+
+    if (isShowQrCodeDialog) {
+        GenerateQrCodeDialog(
+            voucherId = selectedVoucher?.id ?: "",
+            onDismiss = { isShowQrCodeDialog = false }
+        )
+    }
 }
 
 @Composable
 fun VoucherComponent(
-    label : String ? = "Auntie Anne's \nBuy 1 Get 1 Free",
-    image : Int? = R.drawable.voucher,
-    onClick: (() -> Unit)? = null
-){
-    Box(modifier = Modifier.clickable { onClick?.invoke() },
-        contentAlignment = Alignment.Center
-    ){
+    label: String? = "Auntie Anne's \nBuy 1 Get 1 Free",
+    image: Int? = R.drawable.voucher,
+    onClick: (() -> Unit) = {}
+) {
+    Box(
+        modifier = Modifier.padding(vertical = 20.dp),
+        contentAlignment = Alignment.Center,
+    ) {
         Image(
             painter = painterResource(R.drawable.ic_voucher),
             contentDescription = "Background Voucher",
-            modifier = Modifier.padding(5.dp)
         )
 
         Column(
-            modifier = Modifier.padding(end = 40.dp, top = 5.dp),
+            modifier = Modifier
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = null
+                ) { onClick() }
+                .padding(end = 40.dp, top = 5.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
-        ){
+        ) {
 
-            Image(painter = painterResource(image ?: R.drawable.voucher),
+            Image(
+                painter = painterResource(image ?: R.drawable.voucher),
                 contentDescription = "Voucher Image",
                 modifier = Modifier
                     .size(50.dp)
                     .clip(RoundedCornerShape(10.dp))
             )
 
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(2.dp))
 
             Text(
                 text = label ?: "",
@@ -119,7 +138,7 @@ fun VoucherComponent(
 
 @Preview(device = WearDevices.SMALL_ROUND, showSystemUi = true)
 @Composable
-fun VoucherListScreenPreview(){
+fun VoucherListScreenPreview() {
     VoucherListScreen()
 }
 

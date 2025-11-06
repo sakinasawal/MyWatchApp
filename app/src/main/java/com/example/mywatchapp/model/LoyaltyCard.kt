@@ -8,5 +8,5 @@ data class LoyaltyCard (
     val source: String? = null,
     val activatedAt: String? = null,
     val alias: String? = null,
-    val image : Int? = 0
+    val image : Int = 0
 )

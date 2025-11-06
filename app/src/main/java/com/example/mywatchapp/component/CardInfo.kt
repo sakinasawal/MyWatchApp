@@ -12,29 +12,43 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.wear.compose.material3.Text
 import androidx.wear.tooling.preview.devices.WearDevices
 import com.example.mywatchapp.R
 import com.example.mywatchapp.model.LoyaltyCard
 
 @Composable
 fun NfcCardInfo(
-    card: LoyaltyCard? = null
+    card: LoyaltyCard? = null,
+    cardTypeRes : Int = R.drawable.ic_card_red
 ) {
-    Image(
-        painter = painterResource(card?.image ?: R.drawable.ic_card_red),
-        contentDescription = "Nfc Card",
-        modifier = Modifier.clip(RoundedCornerShape(12.dp))
-    )
+    Box {
+        Image(
+            painter = painterResource(cardTypeRes),
+            contentDescription = "Nfc Card",
+            modifier = Modifier
+                .align(Alignment.Center)
+                .clip(RoundedCornerShape(12.dp))
+        )
+
+        Text(
+            text = card?.cardId ?: "001",
+            modifier = Modifier
+                .align(Alignment.BottomStart)
+                .padding(start = 4.dp, bottom = 4.dp)
+        )
+    }
 }
 
 @Preview(device = WearDevices.SMALL_ROUND, showSystemUi = true)
 @Composable
 fun NfcCardInfoPreview(){
-    Box(modifier = Modifier
+    Box(
+        modifier = Modifier
             .fillMaxSize()
             .padding(20.dp),
-        contentAlignment = Alignment.Center)
-    {
+        contentAlignment = Alignment.Center
+    ){
         NfcCardInfo()
     }
 }
