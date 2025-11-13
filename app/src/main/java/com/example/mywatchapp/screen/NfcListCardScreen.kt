@@ -49,7 +49,7 @@ fun NfcListCardScreen(
                 status = "Active",
                 source = "NRewards",
                 activatedAt = "2023-10-10",
-                image = R.drawable.ic_card_red
+                image = R.drawable.ic_cc
             ),
             LoyaltyCard(
                 id = "2",
@@ -76,7 +76,7 @@ fun NfcListCardScreen(
                 status = "Inactive",
                 source = "NRewards",
                 activatedAt = "2023-11-01",
-                image = R.drawable.ic_card_red
+                image = R.drawable.ic_cc
             ),
         )
     }
